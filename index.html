@@ -1,0 +1,943 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Study Guide — The Nature of Reading Abilities</title>
+<style>
+  :root {
+    --primary: #1e3a6e;
+    --accent: #e8a020;
+    --green: #1a7a4a;
+    --red: #c0392b;
+    --purple: #6c3d9e;
+    --bg: #f5f7fc;
+    --card: #ffffff;
+    --border: #dde3f0;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: Georgia, serif; background: var(--bg); color: #1a1a2e; line-height: 1.8; font-size: 15px; }
+
+  /* NAV */
+  nav {
+    position: sticky; top: 0; z-index: 200;
+    background: var(--primary); color: white;
+    padding: 0 16px; display: flex; align-items: center;
+    gap: 4px; flex-wrap: wrap; font-family: sans-serif;
+    font-size: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+    min-height: 44px;
+  }
+  nav .nav-label { opacity: 0.55; font-size: 11px; margin-right: 4px; flex-shrink:0; }
+  nav a { color: #ffd580; text-decoration: none; padding: 3px 7px; border-radius: 4px; white-space: nowrap; }
+  nav a:hover { background: rgba(255,255,255,0.2); }
+
+  /* LEGEND */
+  .legend {
+    background: white; border-bottom: 2px solid var(--border);
+    padding: 8px 28px; display: flex; gap: 14px; flex-wrap: wrap;
+    align-items: center; font-family: sans-serif; font-size: 11.5px;
+  }
+  .ld { display: flex; align-items: center; gap: 5px; }
+  .ld-dot { width: 13px; height: 13px; border-radius: 3px; flex-shrink: 0; }
+
+  /* HEADER */
+  header {
+    background: linear-gradient(135deg, #1e3a6e, #0d1f40);
+    color: white; padding: 36px 28px 28px; text-align: center;
+  }
+  header h1 { font-size: 1.8rem; margin-bottom: 6px; }
+  header p { opacity: 0.75; font-size: 0.9rem; font-family: sans-serif; }
+  .badges { display: flex; gap: 8px; justify-content: center; margin-top: 12px; flex-wrap: wrap; }
+  .badge { background: rgba(255,255,255,0.12); border: 1px solid rgba(255,255,255,0.25); border-radius: 20px; padding: 3px 12px; font-size: 11.5px; font-family: sans-serif; }
+
+  /* CONTAINER */
+  .container { max-width: 920px; margin: 0 auto; padding: 28px 20px 80px; }
+
+  /* SECTION */
+  .section { background: var(--card); border-radius: 10px; border: 1px solid var(--border); margin-bottom: 24px; overflow: hidden; box-shadow: 0 2px 6px rgba(0,0,0,0.05); }
+  .sec-hdr { background: var(--primary); color: white; padding: 13px 20px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; font-family: sans-serif; user-select: none; }
+  .sec-hdr h2 { font-size: 0.95rem; font-weight: 700; }
+  .sec-hdr .tog { font-size: 16px; opacity: 0.8; }
+  .sec-body { padding: 20px 24px; }
+  .sec-body.collapsed { display: none; }
+
+  .subsec { margin-bottom: 20px; }
+  .subsec h3 { font-size: 0.9rem; color: var(--primary); font-family: sans-serif; font-weight: 700; margin-bottom: 9px; padding-bottom: 4px; border-bottom: 2px solid var(--border); }
+  .subsec h4 { font-size: 0.85rem; color: #444; font-family: sans-serif; margin: 10px 0 6px; }
+
+  p { margin-bottom: 10px; font-size: 0.93rem; }
+
+  /* BOXES */
+  .box { border-radius: 7px; padding: 11px 15px; margin: 12px 0; font-size: 0.9rem; position: relative; }
+  .box-lbl { font-family: sans-serif; font-size: 10px; font-weight: 800; letter-spacing: 1.1px; text-transform: uppercase; margin-bottom: 5px; display: block; }
+
+  .term   { background: #fff8e1; border-left: 4px solid #f0c040; }
+  .term .box-lbl { color: #b8860b; }
+
+  .def    { background: #e8f5e9; border-left: 4px solid #66bb6a; }
+  .def .box-lbl { color: #1a7a4a; }
+
+  .arg    { background: #e3f0ff; border-left: 4px solid #4a90d9; }
+  .arg .box-lbl { color: #1a5fa0; }
+
+  .warn   { background: #fdecea; border-left: 4px solid #e57373; }
+  .warn .box-lbl { color: #c0392b; }
+
+  .note   { background: #f3e8ff; border-left: 4px solid #ab7de8; }
+  .note .box-lbl { color: #6c3d9e; }
+
+  .formula { background: #e0f7fa; border-left: 4px solid #26c6da; font-family: monospace; }
+  .formula .box-lbl { color: #00838f; }
+  .formula .eq { font-size: 1.05rem; font-weight: bold; color: #006064; margin-top: 4px; display: block; }
+
+  .quote-box { border-left: 3px solid #bbb; padding: 10px 15px; margin: 12px 0; background: #fafafa; font-style: italic; font-size: 0.88rem; color: #444; border-radius: 0 6px 6px 0; }
+  .quote-box cite { display: block; margin-top: 5px; font-style: normal; font-size: 0.82rem; color: #666; font-family: sans-serif; }
+  .quote-box .quote-lbl { font-style: normal; font-family: sans-serif; font-size: 10px; font-weight: 800; letter-spacing: 1px; text-transform: uppercase; color: #888; margin-bottom: 5px; display: block; }
+
+  /* INLINE MARKS */
+  mark.kt  { background: #fff3cd; border-bottom: 2px solid #f0a500; padding: 1px 2px; border-radius: 2px; }
+  mark.imp { background: #fde8e8; border-bottom: 2px solid #e57373; padding: 1px 2px; border-radius: 2px; }
+  mark.grn { background: #e8f5e9; border-bottom: 2px solid #66bb6a; padding: 1px 2px; border-radius: 2px; }
+
+  /* TABLE */
+  table { width: 100%; border-collapse: collapse; margin: 12px 0; font-size: 0.87rem; font-family: sans-serif; }
+  thead tr { background: var(--primary); color: white; }
+  th, td { padding: 8px 12px; border: 1px solid var(--border); text-align: left; vertical-align: top; }
+  tbody tr:nth-child(even) { background: #f0f4ff; }
+  tbody tr:hover { background: #e5ecff; }
+
+  /* LISTS */
+  ol.s, ul.s { padding-left: 20px; margin: 8px 0; font-size: 0.9rem; }
+  ol.s li, ul.s li { margin-bottom: 6px; }
+
+  /* EXAM TIP */
+  .exam { background: linear-gradient(135deg,#fff8e1,#fffde7); border: 1.5px dashed var(--accent); border-radius: 8px; padding: 11px 15px; margin: 12px 0; font-size: 0.87rem; font-family: sans-serif; }
+  .exam::before { content: "⭐ EXAM TIP  "; font-weight: 800; color: #b8860b; letter-spacing: 0.5px; }
+
+  /* FLOW */
+  .flow { display: flex; align-items: center; gap: 5px; flex-wrap: wrap; margin: 12px 0; font-family: sans-serif; font-size: 0.82rem; }
+  .fs { background: var(--primary); color: white; padding: 6px 12px; border-radius: 20px; font-weight: 600; }
+  .fa { color: var(--accent); font-size: 1.1rem; font-weight: bold; }
+
+  /* COMPARE */
+  .cgrid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 12px 0; }
+  @media(max-width:600px){ .cgrid { grid-template-columns: 1fr; } }
+  .ccard { border: 1px solid var(--border); border-radius: 7px; padding: 12px; font-size: 0.87rem; }
+  .ccard h4 { font-family: sans-serif; font-size: 0.83rem; margin-bottom: 7px; color: var(--primary); }
+
+  /* QUICK REF */
+  .qref { background: linear-gradient(135deg,#1e3a6e,#0d1f40); color: white; border-radius: 10px; padding: 22px; margin-bottom: 24px; }
+  .qref h2 { font-size: 0.95rem; color: #ffd580; margin-bottom: 14px; font-family: sans-serif; }
+  .qgrid { display: grid; grid-template-columns: repeat(auto-fill,minmax(190px,1fr)); gap: 10px; }
+  .qcard { background: rgba(255,255,255,0.1); border-radius: 7px; padding: 11px; font-family: sans-serif; font-size: 0.8rem; border: 1px solid rgba(255,255,255,0.13); }
+  .qt { color: #ffd580; font-weight: 700; margin-bottom: 4px; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.8px; }
+
+  /* FURTHER READING */
+  .fr { background: #f0f4ff; border: 1px solid var(--border); border-radius: 8px; padding: 16px 20px; font-size: 0.88rem; }
+  .fr h3 { font-family: sans-serif; font-size: 0.88rem; color: var(--primary); margin-bottom: 10px; }
+  .fr ul { padding-left: 18px; }
+  .fr li { margin-bottom: 6px; }
+
+  footer { text-align: center; padding: 18px; font-family: sans-serif; font-size: 11px; color: #999; border-top: 1px solid var(--border); margin-top: 16px; }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <span class="nav-label">JUMP TO →</span>
+  <a href="#s0">Overview</a>
+  <a href="#s1">Why Definition Fails</a>
+  <a href="#s2">L1 Focus Rationale</a>
+  <a href="#s3">Purposes (7)</a>
+  <a href="#s4">Skills vs Strategies</a>
+  <a href="#s5">Fluent Reading (10)</a>
+  <a href="#s6">Working Memory</a>
+  <a href="#s7">Lower-Level</a>
+  <a href="#s8">Higher-Level</a>
+  <a href="#s9">2-Seconds / L2 Breakdown</a>
+  <a href="#s10">Models</a>
+  <a href="#s11">Conclusion</a>
+  <a href="#s12">Quick Ref</a>
+  <a href="#s13">Further Reading</a>
+</nav>
+
+<!-- LEGEND -->
+<div class="legend">
+  <strong style="font-family:sans-serif;font-size:11.5px">KEY:</strong>
+  <div class="ld"><div class="ld-dot" style="background:#fff3cd;border:2px solid #f0a500"></div> Key Term</div>
+  <div class="ld"><div class="ld-dot" style="background:#e8f5e9;border:2px solid #66bb6a"></div> Definition</div>
+  <div class="ld"><div class="ld-dot" style="background:#e3f0ff;border:2px solid #4a90d9"></div> Main Argument</div>
+  <div class="ld"><div class="ld-dot" style="background:#fdecea;border:2px solid #e57373"></div> Warning / Rejected View</div>
+  <div class="ld"><div class="ld-dot" style="background:#f3e8ff;border:2px solid #ab7de8"></div> Annotation / Exam Note</div>
+  <div class="ld"><div class="ld-dot" style="background:#e0f7fa;border:2px solid #26c6da"></div> Formula / Statistics</div>
+  <div class="ld"><div class="ld-dot" style="background:#fafafa;border:2px solid #bbb"></div> Quoted Scholar</div>
+</div>
+
+<!-- HEADER -->
+<header>
+  <h1>The Nature of Reading Abilities</h1>
+  <p>Grabe &amp; Stoller (2011) · <em>Teaching and Researching Reading</em>, Chapter 1 · <strong>Study Guide</strong></p>
+  <div class="badges">
+    <span class="badge">📖 Every Page Covered</span>
+    <span class="badge">🔑 All Key Terms</span>
+    <span class="badge">💬 All 13 Quotes Included</span>
+    <span class="badge">📊 All Concepts &amp; Statistics</span>
+    <span class="badge">⭐ Exam Tips Throughout</span>
+  </div>
+</header>
+
+<div class="container">
+
+<!-- ═══════════════════════════════════ -->
+<!-- S0: CHAPTER OVERVIEW -->
+<!-- ═══════════════════════════════════ -->
+<div class="section" id="s0">
+  <div class="sec-hdr" onclick="tog(this)"><h2>📌 Chapter Overview &amp; Road Map (p.3)</h2><span class="tog">▼</span></div>
+  <div class="sec-body">
+    <p>The chapter provides an exploratory map of reading, building a case that reading is far more complex than everyday definitions suggest.</p>
+    <div class="flow">
+      <span class="fs">1. Definition of Reading</span><span class="fa">→</span>
+      <span class="fs">2. Purposes for Reading</span><span class="fa">→</span>
+      <span class="fs">3. Fluent Reading (10 features)</span><span class="fa">→</span>
+      <span class="fs">4. How Reading Works (processes)</span><span class="fa">→</span>
+      <span class="fs">5. Models of Reading</span>
+    </div>
+    <div class="note box"><span class="box-lbl">📝 Scope Note</span>The chapter focuses on <mark class="kt">fluent L1 reading</mark> as the foundation. L1 vs. L2 differences are addressed in Chapter 2. At very advanced levels, L1 and L2 reading abilities tend to merge.</div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════ -->
+<!-- S1: WHY SIMPLE DEFINITION FAILS -->
+<!-- ═══════════════════════════════════ -->
+<div class="section" id="s1">
+  <div class="sec-hdr" onclick="tog(this)"><h2>1. Why a Simple Definition of Reading Fails (pp. 3–4)</h2><span class="tog">▼</span></div>
+  <div class="sec-body">
+    <div class="def box">
+      <span class="box-lbl">📖 The Simple (Insufficient) Definition</span>
+      <em>"Reading is the ability to draw meaning from the printed page and interpret this information appropriately."</em>
+    </div>
+    <div class="arg box">
+      <span class="box-lbl">💡 Main Argument — 5 reasons this definition is inadequate</span>
+      <ol class="s">
+        <li><strong>Purposes:</strong> Does not convey that there are <mark class="kt">multiple ways to engage in reading</mark>, each requiring different skill/strategy combinations</li>
+        <li><strong>Skills complexity:</strong> Does not reveal the many <mark class="kt">skills, processes and knowledge bases</mark> acting in combination and in parallel</li>
+        <li><strong>Time constraints:</strong> Does not explain reading as a <mark class="kt">cognitive process under intense time constraints</mark> — yet these are essential to fluent comprehension</li>
+        <li><strong>L2 proficiency:</strong> Does not highlight how meaning-drawing varies with <mark class="kt">L2 proficiency</mark></li>
+        <li><strong>Social context:</strong> Does not address the <mark class="kt">social context</mark> of reading or why texts are interpreted/used differently</li>
+      </ol>
+    </div>
+    <div class="exam">These 5 reasons are the most likely opening question on a quiz. Shorthand: <strong>Purposes → Complexity → Time → L2 → Social</strong>.</div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════ -->
+<!-- S2: WHY L1 FOCUS -->
+<!-- ═══════════════════════════════════ -->
+<div class="section" id="s2">
+  <div class="sec-hdr" onclick="tog(this)"><h2>2. Why a Book on L2 Reading Starts with L1 (p.4)</h2><span class="tog">▼</span></div>
+  <div class="sec-body">
+    <div class="arg box">
+      <span class="box-lbl">💡 4 Reasons for focusing on L1 reading research</span>
+      <ol class="s">
+        <li>Far more research has been carried out on <mark class="kt">reading in L1 contexts</mark> (especially English as L1)</li>
+        <li>L1 students usually achieve a <mark class="kt">reasonable level of fluency</mark>; same cannot be said for L2 learners</li>
+        <li>Ability to draw implications for instruction — including training studies — is much more <mark class="kt">developed in L1 contexts</mark></li>
+        <li>L1 reading instruction has been a source of many <mark class="kt">instructional innovations</mark> not yet explored extensively in L2 contexts</li>
+      </ol>
+    </div>
+    <div class="note box"><span class="box-lbl">📝 Annotation</span>Even if many L2 students will never become fully fluent readers, they can be taught to make as much progress as possible. L1 reading research provides the <mark class="kt">target end-point</mark>. At very advanced levels, L1 and L2 reading abilities appear quite similar.</div>
+    <div class="exam">A common exam question: "Why do Grabe &amp; Stoller start with L1 research in a book about L2 reading?" — 4 reasons above.</div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════ -->
+<!-- S3: PURPOSES FOR READING -->
+<!-- ═══════════════════════════════════ -->
+<div class="section" id="s3">
+  <div class="sec-hdr" onclick="tog(this)"><h2>3. Purposes for Reading — Section 1.1 (pp. 5–9)</h2><span class="tog">▼</span></div>
+  <div class="sec-body">
+
+    <div class="arg box">
+      <span class="box-lbl">💡 Main Argument</span>
+      Reading decisions are made <mark class="kt">rapidly and almost unconsciously</mark>. Different purposes activate different skill combinations. <mark class="imp">7 main purposes</mark> are identified (heuristic categories — many variations possible).
+    </div>
+
+    <table>
+      <thead><tr><th>#</th><th>Purpose</th><th>Key Features</th><th>Typical Context</th></tr></thead>
+      <tbody>
+        <tr><td>1</td><td><mark class="kt">Search for simple info</mark></td><td>Scan for specific word/number/phrase; slow down to verify. Some see it as an independent cognitive process (Guthrie &amp; Kirsch, 1987)</td><td>Phone directories, indexes</td></tr>
+        <tr><td>2</td><td><mark class="kt">Skim quickly</mark></td><td>Sample segments; guess where important info is; use basic comprehension on key segments until general idea forms</td><td>Newspapers, text previewing</td></tr>
+        <tr><td>3</td><td><mark class="kt">Learn from texts</mark></td><td>Remember main + supporting ideas; build rhetorical frames; link to knowledge base; slower rate; stronger inferencing demands</td><td>Academic/professional contexts</td></tr>
+        <tr><td>4</td><td><mark class="kt">Integrate information</mark></td><td>Synthesise across sources; decide relative importance; restructure rhetorical frames; requires critical evaluation</td><td>Research, multi-source essays</td></tr>
+        <tr><td>5</td><td><mark class="kt">Read to write</mark></td><td>Select, critique, compose from text — a task variant of reading to integrate</td><td>Essays, reports, papers</td></tr>
+        <tr><td>6</td><td><mark class="kt">Critique texts</mark></td><td>Evaluate and judge — another task variant of reading to integrate. Both #5 and #6 require selecting, critiquing, composing.</td><td>Academic critique tasks</td></tr>
+        <tr><td>7</td><td><mark class="kt">General comprehension</mark> ⭐ MOST FUNDAMENTAL</td><td>Understand main ideas, not necessarily all details; relate to background knowledge; underlies all other purposes</td><td>Novels, articles, everyday reading</td></tr>
+      </tbody>
+    </table>
+
+    <div class="subsec">
+      <h3>Carver's "Reading Gears" (Quote 1.1, p.5)</h3>
+      <div class="quote-box">
+        <span class="quote-lbl">Quote 1.1 — Carver (1997, pp. 5–6)</span>
+        Five reading processes (gears): <strong>scanning (Gear 5) → skimming (Gear 4) → rauding (Gear 3) → learning (Gear 2) → memorising (Gear 1)</strong>. Rauding — normal, ordinary, natural reading — is the most common. Sharon (1973) surveyed 5,067 adults and found less than 1% of their reading involved anything difficult to understand during their typical 2 hours/day of reading.
+      </div>
+      <div class="note box"><span class="box-lbl">📝 Annotation</span><mark class="kt">Rauding</mark> (Gear 3) = general reading and listening rate. The most typical adult reading. Used for magazines, newspapers, novels, memos, letters from friends. Key stat: <mark class="imp">&lt;1% of daily reading is difficult</mark>.</div>
+    </div>
+
+    <div class="subsec">
+      <h3>Background Knowledge (Quote 1.2, p.6)</h3>
+      <div class="quote-box">
+        <span class="quote-lbl">Quote 1.2 — Hudson (2007, p. 293)</span>
+        Knowledge of any text topic is essential for successful comprehension regardless of the language. Without basic knowledge, it would be impossible to approximate a writer's intended message. Background knowledge cannot be ignored when attempting to understand reading comprehension.
+      </div>
+    </div>
+
+    <div class="subsec">
+      <h3>Why General Comprehension is Saved for Last (pp. 8–9)</h3>
+      <div class="note box"><span class="box-lbl">📝 Important Nuance</span>
+        General comprehension is intentionally discussed last for two reasons:
+        <ol class="s">
+          <li>It is the <mark class="kt">most basic purpose</mark>, underlying all others</li>
+          <li>It is <mark class="imp">more complex than commonly assumed</mark> — "general" does not mean "simple"</li>
+        </ol>
+        Because of its processing efficiency demands, general comprehension may at times be <mark class="imp">harder to master than reading to learn</mark> — a common misperception exists because of how these are tested in schools.
+      </div>
+    </div>
+
+    <div class="exam">Know all 7 purposes AND be able to explain why general comprehension is both the most fundamental AND potentially the most complex.</div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════ -->
+<!-- S4: SKILLS VS STRATEGIES -->
+<!-- ═══════════════════════════════════ -->
+<div class="section" id="s4">
+  <div class="sec-hdr" onclick="tog(this)"><h2>4. Skills, Strategies &amp; Reading Processes (pp. 8–10)</h2><span class="tog">▼</span></div>
+  <div class="sec-body">
+
+    <div class="cgrid">
+      <div class="ccard">
+        <h4>🔧 SKILLS</h4>
+        <div class="def box" style="margin:0">
+          <span class="box-lbl">Definition</span>
+          Linguistic processing abilities that are <mark class="kt">relatively automatic</mark> in use and combination. Acquired gradually, eventually automatised (Anderson, 1995; Proctor &amp; Dutta, 1995; Schunk, 2000).
+        </div>
+        <p style="margin-top:8px;font-size:0.85rem;"><em>Examples: word recognition, syntactic processing</em></p>
+      </div>
+      <div class="ccard">
+        <h4>🧠 STRATEGIES</h4>
+        <div class="def box" style="margin:0">
+          <span class="box-lbl">Definition</span>
+          Abilities <mark class="kt">potentially open to conscious reflection</mark>; reflect a reader's intention to address a problem or goal while reading (Anderson, 2009).
+        </div>
+        <p style="margin-top:8px;font-size:0.85rem;"><em>Examples: predicting, summarising, rereading, critiquing the author</em></p>
+      </div>
+    </div>
+
+    <div class="subsec">
+      <h3>The Blurred Distinction (Quotes 1.3 &amp; 1.4, pp. 9–10)</h3>
+      <div class="quote-box">
+        <span class="quote-lbl">Quote 1.3 — Alexander and Jetton (2000, pp. 295–6)</span>
+        Two key differences between skillful and strategic processing: <strong>automaticity</strong> and <strong>intentionality</strong>. Skills are routinised, automatic academic habits. The same procedure (e.g. finding main idea) can be either a skill or a strategy depending on whether the reader consciously evokes it or functions automatically.
+      </div>
+      <div class="quote-box">
+        <span class="quote-lbl">Quote 1.4 — Afflerbach, Pearson and Paris (2008, p. 17)</span>
+        Paris et al. (1991) described reading strategies as <em>"skills under consideration"</em> — the same actions could be either a skill or a strategy, depending on the reader's awareness, control, intention, and the specific reading situation.
+      </div>
+    </div>
+
+    <div class="arg box">
+      <span class="box-lbl">💡 Key Argument</span>
+      The distinction between skills and strategies is not entirely clear — and this is due to the <mark class="kt">nature of reading itself</mark>, not a definitional problem. Many abilities identified as strategies are relatively automatic for fluent readers (e.g. skipping unknown words, rereading). Skills may have been learned as strategies but become <mark class="kt">thoroughly automatised</mark>.
+    </div>
+
+    <div class="term box">
+      <span class="box-lbl">🔑 Key Term — Reading Processes</span>
+      Cognitive activity involving skills, strategies, attentional resources, knowledge resources, and their integration.
+    </div>
+    <div class="term box">
+      <span class="box-lbl">🔑 Key Term — Abilities</span>
+      General term covering comprehension skills, strategies and knowledge resources available to the reader.
+    </div>
+
+    <div class="subsec">
+      <h3>Sample Reading Strategies — Concept 1.2 (p.10)</h3>
+      <details>
+        <summary style="cursor:pointer;font-weight:700;color:var(--primary);padding:8px;background:#f0f4ff;border-radius:6px;font-family:sans-serif;font-size:0.88rem;">📋 All 22 strategies — click to expand</summary>
+        <ul class="s" style="margin-top:10px">
+          <li>Specifying a purpose for reading</li><li>Planning what to do / steps to take</li>
+          <li>Previewing the text</li><li>Predicting contents of text or section</li><li>Checking predictions</li>
+          <li>Posing questions about the text</li><li>Finding answers to posed questions</li>
+          <li>Connecting text to background knowledge</li><li>Summarising information</li>
+          <li>Making inferences</li><li>Connecting one part of text to another</li>
+          <li>Paying attention to text structure</li><li>Rereading</li>
+          <li>Guessing word meaning from context</li><li>Using discourse markers to see relationships</li>
+          <li>Checking comprehension</li><li>Identifying difficulties</li>
+          <li>Taking steps to repair faulty comprehension</li><li>Critiquing the author</li>
+          <li>Critiquing the text</li><li>Judging how well purposes were met</li>
+          <li>Reflecting on what has been learned</li>
+        </ul>
+      </details>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════ -->
+<!-- S5: FLUENT READING — 10 FEATURES -->
+<!-- ═══════════════════════════════════ -->
+<div class="section" id="s5">
+  <div class="sec-hdr" onclick="tog(this)"><h2>5. Defining Fluent Reading — 10 Features, Concept 1.3 (pp. 11–13)</h2><span class="tog">▼</span></div>
+  <div class="sec-body">
+
+    <div class="arg box">
+      <span class="box-lbl">💡 Main Argument</span>
+      No single process defines reading comprehension by itself. Together these 10 features provide an accurate account (Concept 1.3). They must be understood as a set, not individually.
+    </div>
+
+    <table>
+      <thead><tr><th>#</th><th>Feature</th><th>Key Details</th></tr></thead>
+      <tbody>
+        <tr><td>1</td><td><mark class="kt">Rapid</mark></td><td>Good L1 readers: <mark class="imp">200–300 words per minute</mark>. More rapid = better processing component operation.</td></tr>
+        <tr><td>2</td><td><mark class="kt">Efficient</mark></td><td>Processes must be coordinated; some must be <mark class="kt">automatic</mark> (Breznitz, 2006).</td></tr>
+        <tr><td>3</td><td><mark class="kt">Interactive</mark></td><td>Two ways: (a) processes run <em>simultaneously</em>; (b) text information interacts with <mark class="kt">background knowledge</mark> from long-term memory.</td></tr>
+        <tr><td>4</td><td><mark class="kt">Strategic</mark></td><td>Reader recognises processing difficulties, addresses imbalances, makes decisions for monitoring and shifting goals (Pressley, 2006).</td></tr>
+        <tr><td>5</td><td><mark class="kt">Flexible</mark></td><td>Adapts to changing purposes and ongoing comprehension monitoring.</td></tr>
+        <tr><td>6</td><td><mark class="kt">Evaluating</mark></td><td>Assesses coherence and match to purpose. Extends to motivations, attitudes, feelings of likely success/failure, expectation of usefulness (Baker &amp; Beall, 2009).</td></tr>
+        <tr><td>7</td><td><mark class="kt">Purposeful</mark></td><td>Every reading act is triggered by an internal or external purpose or task.</td></tr>
+        <tr><td>8</td><td><mark class="kt">Comprehending</mark></td><td>Understanding the text — both obvious (the goal) and subtle (how it is carried out).</td></tr>
+        <tr><td>9</td><td><mark class="kt">A learning process</mark></td><td>Most common way students learn new information in academic settings is through reading.</td></tr>
+        <tr><td>10</td><td><mark class="kt">Linguistic</mark></td><td>Fundamentally language-based — <mark class="imp">NOT a reasoning process</mark> (rejects dominant 1980s–90s view). Without any word knowledge, there is no comprehension possible.</td></tr>
+      </tbody>
+    </table>
+
+    <div class="exam">Memorise all 10. Mnemonic: <strong>R-E-I-S-F-E-P-C-L-L</strong>. Be ready to explain WHY reading is linguistic (not just a reasoning process) — the Chinese/Finnish example from p.13 is useful evidence.</div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════ -->
+<!-- S6: WORKING MEMORY -->
+<!-- ═══════════════════════════════════ -->
+<div class="section" id="s6">
+  <div class="sec-hdr" onclick="tog(this)"><h2>6. Working Memory — Concept 1.4 &amp; Section 1.3.1 (pp. 12–15)</h2><span class="tog">▼</span></div>
+  <div class="sec-body">
+
+    <div class="def box">
+      <span class="box-lbl">📖 Definition — Working Memory (Baddeley, 2007)</span>
+      Information <mark class="kt">activated or given mental stimulation</mark> for immediate storage and processing. Now generally preferred over "short-term memory."<br><br>
+      <strong>4 components (Baddeley's model):</strong>
+      <ul class="s">
+        <li><mark class="kt">Central executive processor</mark> — controls attention; coordinates sub-systems</li>
+        <li><mark class="kt">Visual–spatial sketchpad</mark> — processes visual/spatial information</li>
+        <li><mark class="kt">Episodic buffer</mark> — integrates information across systems</li>
+        <li><mark class="kt">Phonological loop</mark> — processes language/sound information</li>
+      </ul>
+    </div>
+
+    <div class="formula box">
+      <span class="box-lbl">📊 Key Working Memory Facts</span>
+      <span class="eq">Working memory keeps new information active for 1–2 seconds</span>
+      <span class="eq">Lower-level process activations: brief (1–2 sec) unless rehearsed</span>
+      <span class="eq">Higher-level processes: continual reactivation of main ideas throughout reading</span>
+    </div>
+
+    <div class="arg box">
+      <span class="box-lbl">💡 Key Argument — Speed is ESSENTIAL, not optional</span>
+      If processing of active information is not done quickly enough, information <mark class="imp">fades from memory</mark> and must be reactivated — using more resources and making reading inefficient. Speed is not a "nice extra" — it is a necessary component of comprehension.
+    </div>
+
+    <div class="note box">
+      <span class="box-lbl">📝 The Car Analogy — Concept 1.5 (p.14)</span>
+      <ul class="s">
+        <li>🚗 <strong>The car</strong> = Reading comprehension (achieving the destination)</li>
+        <li>⛽ <strong>Fuel</strong> = Word recognition (necessary but not sufficient alone)</li>
+        <li>🔧 <strong>Engine</strong> = Other lower-level processes (syntactic parsing + semantic proposition formation)</li>
+        <li>🏁 <strong>Reaching destination</strong> = Higher-level processes (full text understanding)</li>
+      </ul>
+    </div>
+
+    <table>
+      <thead><tr><th>Lower-Level Processes (Concept 1.5)</th><th>Higher-Level Processes (Concept 1.5)</th></tr></thead>
+      <tbody>
+        <tr>
+          <td>• Lexical access<br>• Syntactic parsing<br>• Semantic proposition formation</td>
+          <td>• Text model of comprehension<br>• Situation model of reader interpretation<br>• Background knowledge use &amp; inferencing<br>• Executive control processes</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="note box"><span class="box-lbl">📝 Important Note</span>Lower-level processes are <mark class="kt">more skills-oriented and automatic</mark>. Higher-level processes make more use of <mark class="kt">background knowledge and inferencing</mark>. Neither is assumed to be easier than the other.</div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════ -->
+<!-- S7: LOWER-LEVEL PROCESSES -->
+<!-- ═══════════════════════════════════ -->
+<div class="section" id="s7">
+  <div class="sec-hdr" onclick="tog(this)"><h2>7. Lower-Level Processes — Section 1.3.2 (pp. 15–19)</h2><span class="tog">▼</span></div>
+  <div class="sec-body">
+
+    <div class="subsec">
+      <h3>7.1 Lexical Access / Word Recognition (pp. 15–16)</h3>
+      <div class="def box">
+        <span class="box-lbl">📖 Definition</span>
+        <mark class="kt">Lexical access</mark> = calling up the meaning of a word as it is recognised. The <mark class="imp">most fundamental requirement</mark> for fluent reading comprehension.
+      </div>
+      <div class="formula box">
+        <span class="box-lbl">📊 Key Statistics — Memorise These</span>
+        <span class="eq">Fluent L1 readers recognise 98–100% of all words in a text</span>
+        <span class="eq">Rate: 4–5 words per second ≈ 230 milliseconds per word (Pressley, 2006)</span>
+        <span class="eq">Fastest recognition possible: under 100 milliseconds (&lt;1/10th of a second)</span>
+        <span class="eq">Reading to learn: ~200 wpm (Pressley, 2006, p. 51)</span>
+        <span class="eq">Relaxed/general reading: 250–300 wpm</span>
+      </div>
+      <div class="quote-box">
+        <span class="quote-lbl">Quote 1.5 — Pressley (2006, p. 51)</span>
+        When reading to learn, each word is typically fixated for about a quarter of a second — about 200 wpm. Reading at a more relaxed pace occurs at 250–300 wpm.
+      </div>
+      <div class="quote-box">
+        <span class="quote-lbl">Quote 1.6 — Pressley (2006, p. 68)</span>
+        Decoding and comprehension compete for short-term memory capacity. Slow word analysis consumes most capacity, leaving little for comprehension. Automatic word recognition consumes very little capacity, freeing it for comprehending words, sentences, paragraphs, and whole texts.
+      </div>
+      <div class="arg box">
+        <span class="box-lbl">💡 Automaticity of Lexical Access</span>
+        For fluent readers, lexical access is <mark class="kt">automatic</mark>: it cannot be consciously reflected on, and it <mark class="kt">cannot be suppressed</mark>. When the eye sees a word, the reader cannot stop accessing its meaning. Requires <mark class="imp">thousands of hours of practice</mark>.
+      </div>
+      <div class="note box"><span class="box-lbl">📝 L2 Annotation</span>Word recognition is under-discussed in L2 contexts — a mistake. Fluent L2 reading requires the same large recognition vocabulary. The challenge is giving L2 students the time, resources and practice to build it.</div>
+    </div>
+
+    <div class="subsec">
+      <h3>7.2 Syntactic Parsing (pp. 16–18)</h3>
+      <div class="def box">
+        <span class="box-lbl">📖 Definition</span>
+        <mark class="kt">Syntactic parsing</mark> = extracting grammatical information from stored words to support clause-level meaning. Involves recognising phrasal groupings, word ordering, subordinate and superordinate clause relations.
+      </div>
+      <div class="arg box">
+        <span class="box-lbl">💡 Why Syntactic Parsing Matters</span>
+        <ul class="s">
+          <li>Disambiguates words with multiple meanings (e.g. <em>bank, cut, drop</em>)</li>
+          <li>Resolves pronoun and definite article references in prior text</li>
+          <li>Clarifies clause-level structure: who did what to whom</li>
+        </ul>
+      </div>
+      <div class="formula box">
+        <span class="box-lbl">📊 Research Evidence (correlation with reading comprehension)</span>
+        <span class="eq">L1: Klauda &amp; Guthrie (2008) — r = .75 with 278 fifth-graders (strongest of 6 skills)</span>
+        <span class="eq">L2: Alderson (1993) — r = .80</span>
+        <span class="eq">L2: van Gelderen et al. (2004) — r = .80</span>
+      </div>
+      <div class="quote-box">
+        <span class="quote-lbl">Quote 1.7 — Urquhart and Weir (1998, pp. 60–1)</span>
+        Demonstrates the necessity of syntactic parsing by showing a jumbled English sentence without function words or inflections is incomprehensible → restoring word order helps slightly → restoring function words and inflections makes the message fully extractable: <em>"The machine begins by digitally recording the speech and passing it to several recogniser modules."</em>
+      </div>
+      <div class="note box">
+        <span class="box-lbl">📝 Tacit vs. Explicit Grammar Knowledge</span>
+        L1 students often read fluently yet fail grammar exercises consciously — they know grammar <mark class="kt">tacitly but not explicitly</mark>. Proves automatic processing can exist <mark class="imp">without metalinguistic knowledge</mark>. For L2 students: the issue is not whether they need grammar knowledge, but that they need <mark class="imp">countless hours of print exposure</mark> to develop automaticity.
+      </div>
+    </div>
+
+    <div class="subsec">
+      <h3>7.3 Semantic Proposition Formation (pp. 18–19)</h3>
+      <div class="def box">
+        <span class="box-lbl">📖 Definition</span>
+        <mark class="kt">Semantic proposition formation</mark> = combining word meanings and structural information into <mark class="kt">clause-level meaning units</mark>. Builds a <mark class="kt">propositional network</mark> of text meaning.
+      </div>
+      <div class="arg box">
+        <span class="box-lbl">💡 How it works — Concept 1.6</span>
+        Words active in working memory (1–2 sec) + grammatical cueing → integrated meaning units. Repeated/reactivated concepts become <mark class="kt">main ideas</mark>. Cause–effect relations and discourse markers (e.g. "however") signal larger propositional relations. The process is largely <mark class="kt">automatic</mark> — becomes conscious only when comprehension breaks down. This process anticipates the text model of comprehension (higher-level).
+      </div>
+      <div class="note box"><span class="box-lbl">📝 Summary of Lower-Level Processes</span>All three — lexical access, syntactic parsing, semantic proposition formation — are <mark class="kt">relatively automatic for fluent readers</mark> and work effortlessly together in working memory. When any one fails, comprehension slows considerably.</div>
+    </div>
+
+    <div class="exam">Expect a question asking you to name and define all three lower-level processes. Know that they are automatic, brief in working memory (1–2 sec), and interdependent.</div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════ -->
+<!-- S8: HIGHER-LEVEL PROCESSES -->
+<!-- ═══════════════════════════════════ -->
+<div class="section" id="s8">
+  <div class="sec-hdr" onclick="tog(this)"><h2>8. Higher-Level Processes — Section 1.3.3 (pp. 19–23)</h2><span class="tog">▼</span></div>
+  <div class="sec-body">
+
+    <div class="subsec">
+      <h3>8.1 Text Model of Comprehension (pp. 20–21)</h3>
+      <div class="def box">
+        <span class="box-lbl">📖 Definition</span>
+        <mark class="kt">Text model of comprehension</mark> = an <mark class="kt">internal summary of main ideas</mark> built as reading proceeds. The set of main ideas the reader forms. <em>Not</em> to be confused with general "models of reading" discussed in Section 1.4.
+      </div>
+      <div class="arg box">
+        <span class="box-lbl">💡 How the Text Model is Built</span>
+        New clause-level meaning units are added to a growing network by:
+        <ul class="s">
+          <li>Repetition of an idea, event, object, or character</li>
+          <li>Reference to the same thing in different words</li>
+          <li>Simple inferences that link new units to the network (part–whole, subordinate–superordinate)</li>
+        </ul>
+        Ideas reactivated repeatedly → become and remain more active → viewed as <mark class="kt">main ideas</mark>.<br>
+        Ideas no longer named or indirectly referred to → <mark class="kt">pruned from network</mark> and fade. <mark class="grn">What readers remember is the gist.</mark>
+      </div>
+      <div class="quote-box">
+        <span class="quote-lbl">Quote 1.8 — Pressley (2006, pp. 53–4)</span>
+        During normal reading, the reader processes individual ideas but remembers the <em>gist</em>. Main ideas are coded sentence by sentence, held in memory, and linked to the next sentence. Bridging inferences reconcile previous and new meaning. Good readers do not make inferences randomly. Prior knowledge plays an important role in generating required inferences.
+      </div>
+      <div class="note box"><span class="box-lbl">📝 Annotation</span>The text model amounts to an internal summary — which is why summary-writing is a reasonable and useful learning task to practise. Inferencing required for the text model is typically <mark class="kt">not extensive</mark> unless the text is very new or language proficiency impedes comprehension.</div>
+    </div>
+
+    <div class="subsec">
+      <h3>8.2 Situation Model of Reader Interpretation (pp. 21–23)</h3>
+      <div class="def box">
+        <span class="box-lbl">📖 Definition</span>
+        <mark class="kt">Situation model of reader interpretation</mark> = the reader's <mark class="kt">personal interpretation</mark> of the text. Built on and around the emerging text model. Shaped by: background knowledge, inferences, reader goals, motivation, task, text difficulty, reader attitudes.
+      </div>
+      <div class="quote-box">
+        <span class="quote-lbl">Quote 1.9 — Perfetti, Van Dyke and Hart (2001, pp. 133–4)</span>
+        Two mental models are needed: (1) <em>text base</em> — what the text says (essentially linguistic; propositions from sentences; inferentially poor); (2) <em>situation model</em> — what the text is about (essentially agnostic in form; built from text base + additional inferences; inferentially rich). Main difference: inferences — text base is inferentially poor; situation model is inferentially rich.
+      </div>
+      <div class="cgrid">
+        <div class="ccard">
+          <h4>📄 Text Model (Text Base)</h4>
+          <ul class="s">
+            <li>What the text <em>says</em></li>
+            <li>Essentially <strong>linguistic</strong></li>
+            <li>Based on propositions from sentences</li>
+            <li>Inferentially <strong>poor</strong></li>
+            <li>→ Produces a summary</li>
+          </ul>
+        </div>
+        <div class="ccard">
+          <h4>🧠 Situation Model (Interpretation)</h4>
+          <ul class="s">
+            <li>What the text is <em>about</em> (for the reader)</li>
+            <li>Integrates <strong>background knowledge</strong></li>
+            <li>Shaped by goals, attitudes, feelings</li>
+            <li>Inferentially <strong>rich</strong></li>
+            <li>→ Produces a critique</li>
+          </ul>
+        </div>
+      </div>
+      <div class="arg box">
+        <span class="box-lbl">💡 Duality of Understanding — Genre Implication</span>
+        The situation model explains how a reader can both summarise a text AND critique it. Different genres signal different reading approaches:
+        <ul class="s">
+          <li>A <mark class="kt">poem</mark> → reader interpretation (situation model) is the goal</li>
+          <li>A <mark class="kt">technical manual</mark> → assumed preferred author interpretation (text model)</li>
+        </ul>
+        This explains the justification for the existence of different genres.
+      </div>
+      <div class="warn box">
+        <span class="box-lbl">⚠️ Warning — Where Fluent Readers Can Go Wrong</span>
+        Wrong or incomplete background knowledge, or faulty inferences, can lead <mark class="imp">even a fluent reader astray</mark> — specifically at the <mark class="imp">situation model stage</mark>. This is where background knowledge is most dangerous.
+      </div>
+      <div class="note box"><span class="box-lbl">📝 Background Knowledge in the Situation Model</span>
+        Background knowledge (as linked networks, instances of memory, schema theory, or mental models) plays a supporting role throughout reading. It helps:
+        <ul class="s">
+          <li>Anticipate discourse organisation</li>
+          <li>Disambiguate word-level and clausal meanings</li>
+          <li>Interpret new information through the reader's goals, feelings and background expectations</li>
+        </ul>
+        The ability to integrate text and background information appropriately and efficiently is the <mark class="kt">hallmark of expert reading</mark> in a topical domain.
+      </div>
+    </div>
+
+    <div class="subsec">
+      <h3>8.3 Executive Control Processing (pp. 22–23)</h3>
+      <div class="def box">
+        <span class="box-lbl">📖 Definition</span>
+        <mark class="kt">Executive control processor</mark> = an attentional monitor (aspect of working memory) that <mark class="kt">focuses selective attention</mark>, assesses understanding, evaluates reading success, shifts strategies, repairs comprehension problems.
+      </div>
+      <div class="note box"><span class="box-lbl">📝 Key Distinction</span>
+        <ul class="s">
+          <li>Evaluation of <strong>text content</strong> (how we feel about the text) → part of the <mark class="kt">situation model</mark></li>
+          <li>Evaluation of <strong>how well we comprehend</strong> → dependent on the <mark class="kt">executive control processor</mark></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="subsec">
+      <h3>8.4 How Purpose Determines Process Emphasis (p.23)</h3>
+      <div class="note box">
+        <span class="box-lbl">📝 Purpose → Process Link</span>
+        <ul class="s">
+          <li><strong>Reading to find simple info</strong> → emphasises word recognition + background knowledge anticipation of target items</li>
+          <li><strong>Reading for general comprehension</strong> → balanced combination of text model + situation model</li>
+          <li><strong>Reading to learn</strong> → first build an accurate text model, then a strong situation model integrated with existing/revised background knowledge</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="exam">Be able to compare and contrast the text model and situation model. Know why the situation model is where background knowledge errors cause the most damage.</div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════ -->
+<!-- S9: 2-SECONDS + L2 BREAKDOWN -->
+<!-- ═══════════════════════════════════ -->
+<div class="section" id="s9">
+  <div class="sec-hdr" onclick="tog(this)"><h2>9. Reading Every 2 Seconds &amp; L2 Breakdown — Concept 1.7 (pp. 23–25)</h2><span class="tog">▼</span></div>
+  <div class="sec-body">
+
+    <div class="formula box">
+      <span class="box-lbl">📊 Concept 1.7 — In Every 2 Seconds of Fluent Reading</span>
+      <span class="eq">1. Focus on and access 8–10 word meanings</span>
+      <span class="eq">2. Parse a clause → form a meaning unit</span>
+      <span class="eq">3. Connect new meaning unit to the growing text model</span>
+      <span class="eq">4. Check interpretation vs. purposes, feelings, attitudes, background expectations</span>
+      <span class="eq">5. Monitor comprehension; make inferences; shift strategies; repair misunderstanding</span>
+      <span class="eq">6. Resolve ambiguities; address difficulties; critique text information</span>
+    </div>
+
+    <div class="arg box">
+      <span class="box-lbl">💡 Three Conclusions (p.24)</span>
+      <ol class="s">
+        <li>Reading comprehension processes work <mark class="kt">in parallel</mark> when some skills are relatively automatic</li>
+        <li>Some processes <mark class="kt">must be automatic</mark> for reading to work efficiently</li>
+        <li><mark class="kt">Fast and efficient processing</mark> is the hallmark of fluent reading comprehension</li>
+      </ol>
+    </div>
+
+    <div class="warn box">
+      <span class="box-lbl">⚠️ When Reading Breaks Down — L2 Context (p.24)</span>
+      Difficulties arise when readers lack adequate background knowledge, linguistic resources, or sufficient reading experience. L2 readers resort to two ineffective coping strategies:
+      <ol class="s">
+        <li><strong>Slow mechanical translation</strong> → working memory efficiencies cannot operate → poor comprehension</li>
+        <li><strong>Forcing a preconceived situation model onto the text</strong> → inappropriate background knowledge activated → poor comprehension</li>
+      </ol>
+      If repeated continually → <mark class="imp">learners lose motivation to become fluent readers</mark>.<br><br>
+      <strong>Long-range solution:</strong> Students need many hours of reading at <mark class="kt">text and task levels appropriate to their abilities</mark>. Only extended exposure to meaningful print builds fluency.
+    </div>
+
+    <div class="exam">The "2 seconds" concept is very testable — it vividly illustrates why automaticity is non-negotiable. Also know the two L2 breakdown strategies and their consequences.</div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════ -->
+<!-- S10: MODELS OF READING -->
+<!-- ═══════════════════════════════════ -->
+<div class="section" id="s10">
+  <div class="sec-hdr" onclick="tog(this)"><h2>10. Models of Reading — Section 1.4 (pp. 25–31)</h2><span class="tog">▼</span></div>
+  <div class="sec-body">
+
+    <div class="note box"><span class="box-lbl">📝 Important Distinction</span><mark class="kt">General models of reading</mark> (Section 1.4) must NOT be confused with the <mark class="kt">text model and situation model</mark> (Section 1.3) — those are comprehension process concepts, not general models.</div>
+
+    <div class="subsec">
+      <h3>10.1 Metaphorical Models — Concept 1.8 (pp. 25–27)</h3>
+
+      <table>
+        <thead><tr><th>Model</th><th>Core Idea</th><th>Verdict</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><mark class="kt">Bottom-up</mark></td>
+            <td>Letter → word → sentence, strictly linear, mechanical, little interference from background knowledge</td>
+            <td>Extreme form inaccurate, but lower-level automatic processes reflect bottom-up aspects. Research broadly supports bottom-up over top-down.</td>
+          </tr>
+          <tr>
+            <td><mark class="kt">Top-down</mark></td>
+            <td>Reader goals/expectations drive reading; sample text to confirm/reject predictions; heavy use of background knowledge and inferencing; executive control generates expectations</td>
+            <td><mark class="imp">Mostly discredited in strong form.</mark> Extreme version is self-defeating. Few researchers support strong top-down views.</td>
+          </tr>
+          <tr>
+            <td><mark class="kt">Interactive</mark></td>
+            <td>Combines bottom-up and top-down</td>
+            <td>Simple interactive model is <mark class="imp">self-contradictory</mark> — automatic lower-level processing is incompatible with strong top-down control. A <mark class="kt">modified interactive (hybrid)</mark> model is most accurate.</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="quote-box">
+        <span class="quote-lbl">Quote 1.10 — Stanovich and Stanovich (1999, p. 29)</span>
+        Two decades of empirical research resolved debates in favour of bottom-up models. Greater use of context to aid word recognition is <em>not</em> a characteristic of good readers; developing phonological sensitivity is critical for early reading success; decoding-emphasis programmes result in better reading outcomes.
+      </div>
+
+      <div class="arg box">
+        <span class="box-lbl">💡 Modified Interactive Model — The Most Accurate Metaphorical Model</span>
+        Automatic lower-level processes run mainly <mark class="kt">bottom-up</mark> with minimal top-down interference (context/background knowledge would slow processing). Top-down knowledge reserved for higher-level processing. On occasion, context disambiguates word meaning (e.g. <em>bank, bug, dope</em>) — but this is the exception. Some purposes (integrating across texts, skimming) do involve more top-down processing.
+      </div>
+    </div>
+
+    <div class="subsec">
+      <h3>10.2 Specific Research-Based Models — Section 1.4.2 (pp. 28–31)</h3>
+
+      <table>
+        <thead><tr><th>Model</th><th>Author(s)</th><th>Core Claim</th><th>Status</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><mark class="kt">Interactive Compensatory Model</mark></td>
+            <td>Stanovich (2000) — proposed late 1970s</td>
+            <td>(a) Readers develop efficient processes; (b) less-automatic processes interact regularly; (c) automatic processes operate relatively independently; (d) reading difficulties → increased interaction and compensation. When automatic processes break down, slower compensatory processes (e.g. context clues) kick in, slowing reading.</td>
+            <td>✅ Validated over 3 decades</td>
+          </tr>
+          <tr>
+            <td><mark class="kt">Word Recognition Model</mark></td>
+            <td>Seidenberg &amp; McClelland (1989); Coltheart (2005) alternative</td>
+            <td>Explains fluent word recognition via <mark class="kt">connectionist / neural network</mark> theory. Neural networks reassemble with greater facility each time a word is encountered. Not a model of full reading comprehension — covers only the major input. Fundamentally bottom-up.</td>
+            <td>✅ Widely recognised</td>
+          </tr>
+          <tr>
+            <td><mark class="kt">Simple View of Reading</mark> ⭐</td>
+            <td>Hoover &amp; Gough (1990)</td>
+            <td>RC = Decoding × Listening Comprehension (both as %). One of the most influential current models. Compatible with word recognition models and Interactive Compensatory Model.</td>
+            <td>✅ Most influential — ongoing debates about measurement and additional factors</td>
+          </tr>
+          <tr>
+            <td><mark class="kt">Dual-Coding Model</mark></td>
+            <td>Sadoski &amp; Paivio (2001, 2007); Sadoski (2009)</td>
+            <td>Verbal and visual processing are <mark class="kt">two separate but linked cognitive systems</mark> that reinforce each other. Learning improved when visual representations match prose. Draws on Interactive Compensatory Model, Simple View, and Verbal Efficiency Model (Perfetti, 1999). Rejects abstract semantic propositions/schemata — comprehension built directly from linguistic + visual input (Paivio, 1986, 2007). Supported by multimedia learning research (Mayer, 2009).</td>
+            <td>✅ Growing in popularity</td>
+          </tr>
+          <tr>
+            <td><mark class="kt">Psycholinguistic Guessing Game Model</mark></td>
+            <td>Goodman (1986, 1996)</td>
+            <td>Reading = (a) hypothesise → (b) sample → (c) confirm. Classic top-down model. Claims reading is universally the same across all proficiency levels and languages; all reading abilities transfer automatically.</td>
+            <td><mark class="imp">❌ Fundamentally wrong</mark> — rejected by Gough &amp; Wren (1999); Pressley (2006); Stanovich (2000)</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="formula box">
+        <span class="box-lbl">📊 Simple View of Reading — The Only Formula in the Chapter</span>
+        <span class="eq">Reading Comprehension (RC) = Decoding (D) × Listening Comprehension (LC)</span>
+        <span style="font-size:0.82rem;font-family:sans-serif;color:#444;display:block;margin-top:5px">Both D and LC measured as percentages, then multiplied. Neither alone is sufficient — both necessary. (Gough, Hoover &amp; Peterson, 1996)</span>
+      </div>
+
+      <div class="quote-box">
+        <span class="quote-lbl">Quote 1.11 — Gough, Hoover and Peterson (1996, p. 3)</span>
+        Skilled reading requires skill in both decoding and comprehension. A child who cannot decode cannot read; a child who cannot comprehend cannot read either. Both are necessary; neither is sufficient.
+      </div>
+
+      <div class="quote-box">
+        <span class="quote-lbl">Quote 1.12 — Alderson (2000, p. 12)</span>
+        Reading is essentially divided into two components: decoding (word recognition) and comprehension. Comprehension consists of parsing sentences, understanding in discourse, building a discourse structure, and integrating with prior knowledge. This comprehension process is not unique to reading — it also describes listening.
+      </div>
+
+      <div class="warn box">
+        <span class="box-lbl">⚠️ Why the Psycholinguistic Guessing Game Model is Rejected</span>
+        <ol class="s">
+          <li>Good readers do <mark class="imp">NOT guess</mark> — they rely on automatic word recognition</li>
+          <li>Poor readers use context <mark class="imp">MORE</mark> than good readers (opposite of the model's prediction)</li>
+          <li>Wrongly assumes reading is <mark class="imp">identical across all languages and proficiency levels</mark></li>
+          <li>Wrongly assumes all reading abilities <mark class="imp">transfer automatically</mark> across languages</li>
+          <li>Has led to <mark class="imp">ineffective instructional practices</mark></li>
+          <li>Useful only as an account of one early stage of reading development — but Goodman never intended it that way</li>
+        </ol>
+      </div>
+
+      <div class="note box">
+        <span class="box-lbl">📝 Constructivist / Transactional Models (p.30)</span>
+        These related models (reader-response theories) <mark class="kt">presume</mark> readers can carry out basic reading comprehension processes rather than explaining how processes operate or develop. Quote 1.13 (Stahl, 1997) critiques response-oriented curricula: long discussions may take time away from actual reading practice, and discussion time has been negatively correlated with reading achievement (Harris &amp; Serwer, 1966).
+      </div>
+
+      <div class="quote-box">
+        <span class="quote-lbl">Quote 1.13 — Stahl (1997, pp. 22–3)</span>
+        Response-oriented classes encourage students to discuss individual reactions to texts. However, transporting this approach to early grades creates problems: responding presupposes one can read; excessive response can be as numbing as excessive questioning on minute details; long discussions take time from reading practice. Harris &amp; Serwer (1966) found discussion time was negatively correlated with achievement.
+      </div>
+    </div>
+
+    <div class="exam">Know all 5 specific models, all 3 metaphorical models, and be able to explain the Guessing Game Model rejection (6 reasons). The Simple View formula is the only equation — memorise it.</div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════ -->
+<!-- S11: CONCLUSION -->
+<!-- ═══════════════════════════════════ -->
+<div class="section" id="s11">
+  <div class="sec-hdr" onclick="tog(this)"><h2>11. Conclusion — Section 1.5 (pp. 31–32)</h2><span class="tog">▼</span></div>
+  <div class="sec-body">
+
+    <div class="arg box">
+      <span class="box-lbl">💡 Chapter's Overall Argument</span>
+      The chapter outlines a view of reading <mark class="kt">well supported by L1 research</mark> and compatible with L2 reading research of the past 20 years. The emphasis on individual cognitive processes is NOT intended to deny:
+      <ul class="s">
+        <li>Social factors in reading development (family literacy, social group experiences, primary schooling, peer/sibling interaction around literacy events)</li>
+        <li>Relevance of social contexts on purpose and processes themselves (addressed in Chapter 2)</li>
+      </ul>
+      Rather: the intention is to <mark class="kt">highlight information not well known among reading teachers</mark> and raise awareness for curriculum planners and teachers.
+    </div>
+
+    <div class="note box">
+      <span class="box-lbl">📝 Figure 1.1 (p.32)</span>
+      The authors refer to Figure 1.1 — a diagram summarising all factors that must be taken into account when considering the complex nature of reading. These factors inform student needs assessment and meaningful reading instruction planning. (Note: the diagram itself is a visual — its content is captured throughout this guide.)
+    </div>
+
+    <div class="note box">
+      <span class="box-lbl">📝 Bridge to Chapter 2</span>
+      Much of the research supporting this chapter is drawn from L1 contexts. Chapter 2 will explore differences between L1 and L2 reading — which should influence interpretation of L2 reading comprehension abilities, L2 development, and implications for reading instruction.
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════ -->
+<!-- S12: QUICK REFERENCE -->
+<!-- ═══════════════════════════════════ -->
+<div class="qref" id="s12">
+  <h2>⚡ COMPLETE QUICK REFERENCE — Everything At A Glance</h2>
+  <div class="qgrid">
+    <div class="qcard"><div class="qt">5 Reasons Definition Fails</div>Purposes → Skills complexity → Time constraints → L2 variation → Social context</div>
+    <div class="qcard"><div class="qt">4 Reasons for L1 Focus</div>More research · L1 achieves fluency (L2 often doesn't) · Better instructional implications · More instructional innovation</div>
+    <div class="qcard"><div class="qt">7 Purposes for Reading</div>Search · Skim · Learn · Integrate · Write · Critique · General comprehension (most fundamental)</div>
+    <div class="qcard"><div class="qt">Carver's 5 Reading Gears</div>Memorising (1) → Learning (2) → Rauding (3) ← most common → Skimming (4) → Scanning (5)</div>
+    <div class="qcard"><div class="qt">Skills vs. Strategies</div>Skills = automatic · Strategies = potentially conscious · Both = "abilities" · Line blurs by nature of reading</div>
+    <div class="qcard"><div class="qt">10 Features of Fluent Reading</div>Rapid, Efficient, Interactive, Strategic, Flexible, Evaluating, Purposeful, Comprehending, Learning, Linguistic</div>
+    <div class="qcard"><div class="qt">Baddeley's Working Memory</div>Central executive + Visual-spatial sketchpad + Episodic buffer + Phonological loop · Active 1–2 seconds</div>
+    <div class="qcard"><div class="qt">Car Analogy</div>Fuel = Word recognition · Engine = Lower-level processes · Car reaching destination = Higher-level comprehension</div>
+    <div class="qcard"><div class="qt">3 Lower-Level Processes</div>Lexical access · Syntactic parsing · Semantic proposition formation · All automatic · 1–2 sec in WM</div>
+    <div class="qcard"><div class="qt">Key Word Recognition Stats</div>4–5 words/sec · ~230ms/word · &lt;100ms fastest · 98–100% of words recognised · 200–300 wpm reading rate</div>
+    <div class="qcard"><div class="qt">Syntactic Parsing Evidence</div>L1 r=.75 (Klauda &amp; Guthrie) · L2 r=.80 (Alderson) · L2 r=.80 (van Gelderen)</div>
+    <div class="qcard"><div class="qt">4 Higher-Level Processes</div>Text model · Situation model · Background knowledge + Inferencing · Executive control</div>
+    <div class="qcard"><div class="qt">Text vs. Situation Model</div>Text = what text SAYS · linguistic · inferentially poor · Situation = reader INTERPRETATION · BK-rich · inferentially rich</div>
+    <div class="qcard"><div class="qt">In Every 2 Seconds</div>8–10 words · parse clause · connect to text model · check interpretation · monitor/infer · resolve ambiguities</div>
+    <div class="qcard"><div class="qt">L2 Breakdown Strategies</div>Slow mechanical translation → WM fails · Forcing preconceived situation model → inappropriate BK · Both = poor comprehension</div>
+    <div class="qcard"><div class="qt">3 Metaphorical Models</div>Bottom-up · Top-down (discredited) · Modified Interactive ✅</div>
+    <div class="qcard"><div class="qt">5 Specific Models</div>Interactive Compensatory ✅ · Word Recognition ✅ · Simple View ⭐ · Dual-Coding ✅ · Guessing Game ❌</div>
+    <div class="qcard"><div class="qt">Simple View Formula ⭐</div>RC = Decoding × Listening Comprehension (Hoover &amp; Gough, 1990) · Both necessary, neither sufficient</div>
+    <div class="qcard"><div class="qt">Guessing Game Rejection (6)</div>Good readers don't guess · Poor readers use context MORE · Not universal across languages · No auto transfer · Ineffective instruction · Only early-stage at best</div>
+    <div class="qcard"><div class="qt">Dual-Coding Model</div>Verbal + visual = 2 separate but linked systems · Reinforce each other · Comprehension built from linguistic + visual input directly</div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════ -->
+<!-- S13: FURTHER READING -->
+<!-- ═══════════════════════════════════ -->
+<div class="section" id="s13">
+  <div class="sec-hdr" onclick="tog(this)"><h2>12. Further Reading (p.33)</h2><span class="tog">▼</span></div>
+  <div class="sec-body">
+    <div class="fr">
+      <h3>Key References by Topic (from p.33)</h3>
+      <ul class="s">
+        <li><strong>Alternative views on purposes for reading:</strong> Carver (1992)</li>
+        <li><strong>Variations on reading-to-learn:</strong> Enright et al. (2000); Khalifa and Weir (2009)</li>
+        <li><strong>Comprehensive overviews of general reading comprehension:</strong> Grabe (2009); Pressley (2006); Snow, Griffin and Burns (2005)</li>
+        <li><strong>Reading comprehension processes:</strong> Koda (2005); McCardle, Chhabra and Kapinus (2008); Perfetti, Landi and Oakhill (2005); Pressley (2006); Snow, Griffin and Burns (2005); Stanovich (2000)</li>
+        <li><strong>Working memory activation:</strong> Baddeley, Eysenck and Anderson (2009); Gathercole and Alloway (2008); Pickering (2006)</li>
+        <li><strong>Models similar to Interactive Compensatory Model:</strong> Kintsch (1998); Perfetti (1999)</li>
+        <li><strong>Wide range of reading models:</strong> Grabe (2009); Hudson (2007)</li>
+        <li><strong>Simple View of Reading specifics:</strong> Gough, Hoover and Peterson (1996); Kirby and Savage (2008)</li>
+        <li><strong>Dual-Coding Model specifics:</strong> Sadoski (2004, 2009)</li>
+        <li><strong>See also:</strong> Chapter 10 (sections 10.1 and 10.2) for additional readings on key issues in this chapter</li>
+      </ul>
+    </div>
+    <div class="note box" style="margin-top:12px"><span class="box-lbl">📝 Study Tip</span>The most commonly cited authors throughout this chapter — and therefore most exam-relevant — are: <strong>Pressley (2006)</strong>, <strong>Stanovich (2000)</strong>, <strong>Grabe (2009)</strong>, <strong>Baddeley (2007)</strong>, and <strong>Goodman (1986, 1996)</strong>. Know what each is associated with.</div>
+  </div>
+</div>
+
+</div><!-- end container -->
+
+<footer>
+  Study Guide · Grabe &amp; Stoller (2011), Chapter 1
+</footer>
+
+<script>
+function tog(hdr) {
+  const body = hdr.nextElementSibling;
+  const t = hdr.querySelector('.tog');
+  if (body.classList.contains('collapsed')) {
+    body.classList.remove('collapsed');
+    t.textContent = '▼';
+  } else {
+    body.classList.add('collapsed');
+    t.textContent = '▶';
+  }
+}
+</script>
+</body>
+</html>
